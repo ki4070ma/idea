@@ -3,21 +3,25 @@ import sys
 import xml.etree.ElementTree as ET
 
 def check_word_in_view(word):
-  root = ET.fromstring(dump_ui())
-  for node in root.iter('node'):
-    text = node.attrib['text']
-    # if text:  # For debug
-    #   print text
-    if word in text:
-      return True
+  for i in range(2):  # Retry
+    root = ET.fromstring(dump_ui())
+    for node in root.iter('node'):
+      text = node.attrib['text']
+      # if text:  # For debug
+      #   print text
+      if word in text:
+        return True
   return False
 
 def check_focused_word(word):
-  root = ET.fromstring(dump_ui())
-  for node in root.findall('.//node[@focused="true"]'):
-    for n in node.iter('node'):
-      if word in n.attrib['text']:
-        return True
+  for i in range(2):  # Retry
+    root = ET.fromstring(dump_ui())
+    for node in root.findall('.//node[@focused="true"]'):
+      for n in node.iter('node'):
+        # if n.attrib['text']:  # For debug
+        #   print n.attrib['text']
+        if word in n.attrib['text']:
+          return True
   return False
 
 def dump_ui():
@@ -32,5 +36,5 @@ if __name__ == '__main__':
   if argc != 2:
     print '****Usage: # python {} word'.format(argvs[0])
     sys.exit(1)
-  print check_word_in_view(argvs[1])
-  # print check_focused_word(argvs[1])
+  # print check_word_in_view(argvs[1])
+  print check_focused_word(argvs[1])

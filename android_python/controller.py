@@ -8,8 +8,10 @@ class Controller(object):
     pass  # TODO Should have adb name
 
   def execute(self, steps):
+    steps = steps.split()
     self.__check_steps(steps)
     for step in steps:
+      print '****Executed {}'.format(step)
       sp.check_output('adb shell input keyevent DPAD_{}'.format(step).split())
 
   def start_settings(self):
@@ -31,7 +33,7 @@ class Controller(object):
 
 if __name__ == '__main__':
   controller = Controller()
-  controller.execute(['DOWN', 'DOWN', 'DOWN'])
+  controller.execute('DOWN DOWN DOWN')
   # controller.start_settings()
   # controller.am_start('com.android.settings/.Settings')
   # controller.cap('Settings')
